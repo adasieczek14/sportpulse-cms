@@ -16,9 +16,9 @@ except ImportError:
 # jeśli chcesz testować lokalnie. Uwaga: GA może nie zliczać ruchu z "file://",
 # dlatego najlepiej używać prawdziwych adresów URL (np. GitHub Pages, Vercel).
 URLS = [
-    "http://twojadomena.pl/index.html",
-    "http://twojadomena.pl/article1.html",
-    "http://twojadomena.pl/article2.html"
+    "https://sportpulse-cms.vercel.app/index.html",
+    "https://sportpulse-cms.vercel.app/article1.html",
+    "https://sportpulse-cms.vercel.app/article2.html"
 ]
 
 # Ile wizyt chcemy zasymulować
@@ -30,10 +30,12 @@ def setup_driver():
     # Jeśli chcesz widzieć co się dzieje, zakomentuj poniższą linię:
     # chrome_options.add_argument("--headless")
     
-    # Dodatkowe flagi optymalizacyjne
+    # Opcje pomagające oszukać GA, by nie traktowało tego jako bota
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--window-size=1920x1080")
-    chrome_options.add_argument("--incognito")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option("useAutomationExtension", False)
     
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
